@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Father's Biblical Self-Assessment</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for the app */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Basic styling for radio buttons to ensure good touch targets and visual clarity */
+        input[type='radio'] {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            border-radius: 50%;
+            border: 2px solid #3B82F6; /* Blue border */
+            width: 1.5rem; /* Increased size for better touch target */
+            height: 1.5rem; /* Increased size for better touch target */
+            outline: none;
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s;
+            flex-shrink: 0; /* Prevent shrinking on small screens */
+        }
+
+        input[type='radio']:checked {
+            background-color: #3B82F6; /* Blue fill when checked */
+            border-color: #3B82F6;
+        }
+
+        input[type='radio']:checked::before {
+            content: '';
+            display: block;
+            width: 0.75rem; /* Inner circle size */
+            height: 0.75rem;
+            margin: 3px; /* Center the inner circle */
+            border-radius: 50%;
+            background: white; /* White inner circle */
+        }
+
+        /* Ensure the SVG is responsive */
+        svg {
+            display: block;
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Adjustments for text within radio button labels for mobile readability */
+        label span {
+            font-size: 0.95rem; /* Slightly larger font for readability on small screens */
+        }
+
+        /* Ensure accordion button has enough padding for touch */
+        .accordion-button {
+            padding: 0.75rem 1rem; /* More padding for easier tapping */
+        }
+
+        /* Print-specific styles */
+        @media print {
+            body {
+                background-color: #fff !important; /* White background for printing */
+                color: #000 !important; /* Black text for readability */
+                margin: 0; /* Remove body margins */
+                padding: 0; /* Remove body padding */
+            }
+
+            header, footer, .print-button-container {
+                display: none !important; /* Hide header, footer, and print button */
+            }
+
+            /* Remove shadows, borders, and background colors from main containers */
+            .shadow-lg, .bg-white, .bg-gray-100, .bg-blue-50, .border-b-4, .border-blue-600, .border-blue-200, .border-gray-200 {
+                box-shadow: none !important;
+                background-color: transparent !important;
+                border: none !important;
+            }
+
+            /* Ensure content takes full width without flex layout issues on print */
+            .flex-col, .lg\:flex-row, .w-full, .max-w-6xl {
+                width: 100% !important;
+                max-width: 100% !important;
+                flex-direction: column !important; /* Ensure vertical stacking */
+                gap: 0 !important; /* Remove gaps */
+            }
+
+            /* Ensure padding is reduced for print, or adjusted for layout */
+            .p-4, .sm\:p-6 {
+                padding: 0.5rem !important; /* Smaller padding for print */
+            }
+
+            /* Ensure questions and labels are clearly visible */
+            .font-medium, .font-semibold {
+                font-weight: normal !important; /* Use normal weight to save ink */
+            }
+            .text-gray-800, .text-blue-800, .text-gray-700, .text-blue-700, .fill-gray-700, .fill-gray-500 {
+                color: #000 !important; /* Force black text */
+                fill: #000 !important; /* Force black fill for SVG text */
+            }
+
+            /* Hide radio buttons for print, as their state is reflected in the wheel */
+            input[type='radio'], label span {
+                display: none !important;
+            }
+            /* Show only the rating number for context if needed, but for a summary, hiding is fine */
+            .radio-group-div label {
+                display: block; /* Ensure labels don't collapse */
+            }
+
+            /* Ensure accordion content is always visible when printed */
+            .questions-container {
+                display: block !important;
+            }
+            .accordion-button span {
+                display: none !important; /* Hide the +/- icon */
+            }
+
+            /* Force page breaks for major sections for better readability */
+            .section-break {
+                page-break-before: always;
+            }
+
+            /* SVG specific print styles */
+            svg polygon {
+                fill: rgba(59, 130, 246, 0.2) !important; /* Lighter fill for print */
+                stroke: #3B82F6 !important; /* Keep stroke color */
+                stroke-width: 1.5 !important; /* Slightly thinner stroke */
+            }
+            svg line {
+                stroke: #A0AEC0 !important; /* Lighter grey for spokes */
+            }
+            svg circle {
+                stroke: #E2E8F0 !important; /* Lighter grey for concentric circles */
+            }
+            /* Adjust logo for print */
+            .header-logo {
+                display: block !important; /* Make sure logo is visible in print */
+                max-width: 150px !important; /* Smaller size for print */
+                height: auto !important;
+                margin-bottom: 10px !important;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-100 font-sans text-gray-900 p-4 sm:p-6 flex flex-col items-center">
+
+    <header class="text-center mb-8">
+        <img src="https://placehold.co/300x100/E0E7FF/3B82F6?text=FATHERSWALK.COM+LOGO" alt="Fathers Walk Logo Placeholder" class="header-logo max-h-24 w-auto mx-auto mb-4">
+        <h1 class="text-4xl sm:text-5xl font-extrabold text-blue-800 mb-2">
+            Father's Biblical Self-Assessment
+        </h1>
+        <p class="text-lg sm:text-xl text-gray-700">
+            Examine yourselves, to see whether you are in the faith. Test yourselves. Or do you not realize this about yourselves, that Jesus Christ is in you?—unless indeed you fail to meet the test! [2 Corinthians 13:5]
+        </p>
+    </header>
+
+    <div class="w-full max-w-6xl flex flex-col gap-8">
+        <!-- Assessment Wheel Section -->
+        <div class="w-full bg-white rounded-xl shadow-lg p-4 sm:p-6 flex flex-col items-center justify-center border-b-4 border-blue-600">
+            <h2 class="text-2xl font-bold text-blue-700 mb-1">YOUR CIRCLE OF EXCELLENCE</h2>
+            <p class="text-lg text-gray-600 mb-4">How are you doing</p>
+            <div id="assessment-wheel-container" class="w-full max-w-sm sm:max-w-md md:max-w-lg h-auto">
+                <!-- SVG Wheel will be rendered here by JavaScript -->
+            </div>
+            <div id="average-scores-display" class="mt-6 w-full grid grid-cols-1 sm:grid-cols-2 gap-4 text-center">
+                <!-- Average scores will be displayed here by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Print Button Container -->
+        <div class="print-button-container w-full text-center mt-4 mb-8">
+            <button onclick="window.print()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                Print Assessment Report
+            </button>
+        </div>
+
+        <!-- Survey Questions Section -->
+        <div class="w-full bg-white rounded-xl shadow-lg p-4 sm:p-6 border-b-4 border-blue-600 section-break">
+            <h2 class="text-2xl font-bold text-blue-700 mb-6 text-center">Self-Assessment Questions</h2>
+            <p class="text-gray-700 mb-6 text-center italic">
+                Rate yourself on a scale of 1 to 5: 1 = Strongly Disagree, 5 = Strongly Agree
+            </p>
+            <div id="survey-questions-container">
+                <!-- Survey sections and questions will be rendered here by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <footer class="mt-12 text-center text-gray-600 text-sm">
+        <p>&copy; <span id="current-year"></span> Father's Biblical Self-Assessment. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Define the survey sections and their questions
+        const sectionsData = {
+            Spiritual: [
+                "I consistently lead my family in regular prayer and devotion, ascribing to the biblical mandate for spiritual headship (e.g., Ephesians 5:23).",
+                "I am actively engaged in the study of God's Word, seeking to grow in my understanding and application of biblical truth for myself and my family (e.g., Psalm 1:2, Joshua 1:8).",
+                "I prioritize regular corporate worship with my family, demonstrating its importance as a means of grace and fellowship (e.g., Hebrews 10:25).",
+                "I consistently model a humble and repentant heart before my family, confessing my sins and seeking forgiveness when I err (e.g., 1 John 1:9).",
+                "I actively teach my children about the Gospel and the core tenets of our faith, fostering a love for God and His Word in their hearts (e.g., Deuteronomy 6:6-7).",
+                "I intentionally seek to cultivate a personal relationship with God through prayer, meditation, and scripture reading, independent of my family's spiritual practices (e.g., Matthew 6:6).",
+                "I actively share my faith with others, both by word and deed, demonstrating the importance of evangelism to my family (e.g., Matthew 28:19-20).",
+                "I regularly participate in a local church community beyond Sunday services, engaging in fellowship and service (e.g., Acts 2:42).",
+                "I demonstrate a reliance on the Holy Spirit for guidance and strength in my daily life and fatherhood (e.g., Galatians 5:25).",
+                "I strive to live a life that reflects the fruit of the Spirit, demonstrating love, joy, peace, patience, kindness, goodness, faithfulness, faithfulness, gentleness, and self-control (e.g., Galatians 5:22-23)."
+            ],
+            Mental: [
+                "I actively seek wisdom and discernment from God's Word and godly counsel to make decisions for my family (e.g., Proverbs 2:6, Proverbs 12:15).",
+                "I strive to maintain a mind focused on what is true, noble, right, pure, lovely, admirable, excellent, or praiseworthy, as admonished in Philippians 4:8.",
+                "I am diligent in guarding my mind against ungodly influences and sinful thought patterns that could negatively impact my leadership and family (e.g., 2 Corinthians 10:5).",
+                "I regularly engage in learning and intellectual growth, recognizing the importance of an informed mind for leadership and understanding God's world (e.g., Proverbs 18:15).",
+                "I am able to control my temper and emotions, responding with patience and self-control rather than anger or impulsiveness (e.g., Proverbs 16:32, James 1:19-20).",
+                "I approach challenges and difficulties with a mindset of faith and perseverance, trusting in God's sovereignty (e.g., Romans 8:28).",
+                "I am able to identify and confess my own biases and prejudices, seeking to conform my thoughts to biblical truth (e.g., Romans 12:2).",
+                "I prioritize prayer and seeking God's perspective when facing stressful situations or making significant decisions (e.g., Philippians 4:6-7).",
+                "I am intentional about cultivating a thankful and contented mindset, avoiding grumbling and complaining (e.g., 1 Thessalonians 5:18).",
+                "I thoughtfully consider the long-term implications of my decisions, demonstrating foresight and prudence for my family's well-being (e.g., Proverbs 21:5)."
+            ],
+            Physical: [
+                "I steward my body as a temple of the Holy Spirit, seeking to maintain good health and vigor for the service of God and my family (e.g., 1 Corinthians 6:19-20).",
+                "I am responsible in ensuring adequate rest and healthy habits, recognizing that these contribute to my ability to effectively fulfill my fatherly duties (e.g., Psalm 127:2).",
+                "I am mindful of using my physical strength and energy in ways that honor God and provide for and protect my family (e.g., Proverbs 31:17).",
+                "I engage in regular physical activity to maintain my health and energy levels (e.g., 1 Timothy 4:8 - while acknowledging its limited profit, it points to physical discipline).",
+                "I prioritize a balanced diet, recognizing its impact on my overall well-being and ability to serve (e.g., Proverbs 23:20-21, emphasizing moderation).",
+                "I take appropriate measures to protect my family's physical safety and well-being (e.g., Nehemiah 4:14, demonstrating vigilance and protection).",
+                "I avoid excessive indulgence in food, drink, or other physical pleasures that could impair my judgment or commitment (e.g., Proverbs 23:20-21).",
+                "I am proactive in seeking medical attention when necessary, caring for the body God has given me.",
+                "I am able to physically engage with my children in ways that promote their well-being and create positive memories (e.g., Luke 18:16, Jesus' interaction with children).",
+                "I am conscious of setting a good example for my family in terms of healthy living and self-care."
+            ],
+            Relational: [
+                "I lovingly lead my wife as Christ loved the church, sacrificially serving her and seeking her good (e.g., Ephesians 5:25).",
+                "I diligently teach and train my children in the discipline and instruction of the Lord, fostering an environment of respect and love (e.g., Ephesians 6:4).",
+                "I actively pursue reconciliation and forgiveness within my family, seeking to maintain unity and peace as modeled in scripture (e.g., Colossians 3:13).",
+                "I prioritize quality time and communication with my wife, nurturing our marital bond (e.g., Ephesians 5:33).",
+                "I listen attentively to my children, seeking to understand their hearts and perspectives (e.g., James 1:19).",
+                "I consistently affirm and encourage my family members, speaking words that build them up (e.g., Ephesians 4:29).",
+                "I actively create an atmosphere of love and acceptance within my home, making it a safe place for my family to grow (e.g., Romans 15:7).",
+                "I am quick to ask for forgiveness when I have wronged my wife or children (e.g., Matthew 5:23-24).",
+                "I demonstrate hospitality and cultivate godly relationships with others outside my immediate family, teaching my children the importance of community (e.g., Romans 12:13).",
+                "I am a peacemaker in my home, resolving conflicts biblically and fostering harmony (e.g., Matthew 5:9)."
+            ],
+            Professional: [
+                "I work diligently and with integrity, as unto the Lord, providing for my household and demonstrating a good witness to those around me (e.g., Colossians 3:23-24, 1 Timothy 5:8).",
+                "I prioritize my family responsibilities over excessive professional pursuits, ensuring that my work does not hinder my duties as a husband and father (e.g., Proverbs 23:4-5).",
+                "I use my professional skills and influence to honor God and to be a blessing to others, reflecting Christian character in the workplace (e.g., Matthew 5:16).",
+                "I maintain a strong work ethic, avoiding idleness or laziness in my professional life (e.g., Proverbs 6:6-11).",
+                "I conduct my work with honesty and ethical standards, even when it is not convenient or popular (e.g., Proverbs 11:3).",
+                "I strive for excellence in my work, recognizing that it brings glory to God (e.g., Ecclesiastes 9:10).",
+                "I am a respectful and cooperative colleague, contributing positively to my work environment (e.g., Romans 12:18).",
+                "I view my profession as a calling from God, seeking to use it for His purposes (e.g., 1 Corinthians 7:17).",
+                "I am able to set healthy boundaries between my professional life and my family life (e.g., Matthew 6:33, prioritizing the kingdom).",
+                "I am not defined by my professional success or failure, finding my ultimate identity in Christ (e.g., Philippians 3:7-9)."
+            ],
+            Financial: [
+                "I am a faithful steward of the financial resources God has entrusted to me, managing them wisely and avoiding unnecessary debt (e.g., Proverbs 22:7, Luke 16:10).",
+                "I generously give a portion of my income to the Lord's work and to those in need, recognizing God as the ultimate provider (e.g., Proverbs 3:9-10, 2 Corinthians 9:7).",
+                "I am responsible in planning for the financial well-being and future of my family, demonstrating foresight and prudence (e.g., Proverbs 6:6-8, 2 Corinthians 12:14).",
+                "I avoid the love of money, recognizing it as a root of all kinds of evil (e.g., 1 Timothy 6:10).",
+                "I teach my children biblical principles of money management, including saving, giving, and avoiding debt (e.g., Proverbs 13:11).",
+                "I am content with what I have and avoid coveting the possessions of others (e.g., Hebrews 13:5).",
+                "I live within my means, avoiding extravagance and wasteful spending (e.g., Proverbs 21:20).",
+                "I am diligent in paying my taxes and other financial obligations (e.g., Romans 13:7).",
+                "I seek godly counsel regarding significant financial decisions (e.g., Proverbs 15:22).",
+                "I trust God to provide for my family's needs, rather rather than relying solely on my own efforts or resources (e.g., Matthew 6:25-34)."
+            ]
+        };
+
+        // State-like variables (using a simple object for answers and scores)
+        let answers = {};
+        let averageScores = {};
+
+        // Initialize answers and scores
+        function initializeAppData() {
+            Object.keys(sectionsData).forEach(section => {
+                answers[section] = Array(sectionsData[section].length).fill(0);
+            });
+            updateAverageScores(); // Calculate initial scores (all zeros)
+        }
+
+        // Function to calculate and update average scores
+        function updateAverageScores() {
+            const newAverageScores = {};
+            Object.keys(sectionsData).forEach(section => {
+                const sectionAnswers = answers[section];
+                const validAnswers = sectionAnswers.filter(rating => rating > 0);
+                if (validAnswers.length > 0) {
+                    const sum = validAnswers.reduce((acc, curr) => acc + curr, 0);
+                    newAverageScores[section] = sum / validAnswers.length;
+                } else {
+                    newAverageScores[section] = 0;
+                }
+            });
+
+            // Only update if scores have actually changed to prevent unnecessary re-renders
+            if (!areScoresEqual(averageScores, newAverageScores)) {
+                averageScores = newAverageScores;
+                drawAssessmentWheel();
+                displayAverageScores();
+            }
+        }
+
+        // Helper function for deep comparison of score objects
+        function areScoresEqual(obj1, obj2) {
+            const keys1 = Object.keys(obj1);
+            const keys2 = Object.keys(obj2);
+
+            if (keys1.length !== keys2.length) {
+                return false;
+            }
+
+            for (let key of keys1) {
+                if (!obj2.hasOwnProperty(key)) {
+                    return false;
+                }
+                if (Math.abs(obj1[key] - obj2[key]) > 0.0001) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        // Function to handle rating change
+        function handleRatingChange(section, questionIndex, rating) {
+            answers[section][questionIndex] = parseInt(rating);
+            updateAverageScores();
+        }
+
+        // Function to render a single question
+        function renderQuestion(sectionName, questionText, questionIndex, currentRating) {
+            const questionDiv = document.createElement('div');
+            questionDiv.className = 'p-4 bg-white rounded-lg shadow-sm border border-gray-200';
+
+            const questionP = document.createElement('p');
+            questionP.className = 'font-medium text-gray-800 mb-3 text-base sm:text-lg'; /* Responsive text size */
+            questionP.textContent = `${questionIndex + 1}. ${questionText}`;
+            questionDiv.appendChild(questionP);
+
+            const radioGroupDiv = document.createElement('div');
+            radioGroupDiv.className = 'flex flex-wrap justify-center sm:justify-start gap-x-4 gap-y-2'; /* flex-wrap for mobile */
+
+            for (let rating = 1; rating <= 5; rating++) {
+                const label = document.createElement('label');
+                label.className = 'inline-flex items-center cursor-pointer';
+
+                const input = document.createElement('input');
+                input.type = 'radio';
+                input.name = `${sectionName}-question-${questionIndex}`;
+                input.value = rating;
+                input.checked = currentRating === rating;
+                input.className = 'form-radio h-5 w-5 text-blue-600 transition duration-150 ease-in-out rounded-full focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50';
+                input.addEventListener('change', () => handleRatingChange(sectionName, questionIndex, rating));
+
+                const span = document.createElement('span');
+                span.className = 'ml-2 text-gray-700 font-semibold text-sm sm:text-base'; /* Responsive text size */
+                span.textContent = rating;
+
+                label.appendChild(input);
+                label.appendChild(span);
+                radioGroupDiv.appendChild(label);
+            }
+            questionDiv.appendChild(radioGroupDiv);
+            return questionDiv;
+        }
+
+        // Function to render a survey section
+        function renderSurveySection(sectionName, questions, currentAnswers) {
+            const sectionDiv = document.createElement('div');
+            sectionDiv.className = 'mb-8 p-4 bg-blue-50 rounded-lg shadow-md border border-blue-200';
+
+            const button = document.createElement('button');
+            button.className = 'accordion-button w-full flex justify-between items-center text-left font-bold text-xl text-blue-800 pb-3 border-b border-blue-300 focus:outline-none';
+            button.innerHTML = `${sectionName} <span class="text-blue-600 text-2xl">−</span>`;
+            sectionDiv.appendChild(button);
+
+            const questionsContainer = document.createElement('div');
+            questionsContainer.className = 'mt-4 space-y-6';
+            sectionDiv.appendChild(questionsContainer);
+
+            // Accordion logic
+            let isOpen = true;
+            button.addEventListener('click', () => {
+                isOpen = !isOpen;
+                questionsContainer.style.display = isOpen ? 'block' : 'none';
+                button.querySelector('span').textContent = isOpen ? '−' : '+';
+            });
+
+            questions.forEach((question, index) => {
+                questionsContainer.appendChild(renderQuestion(sectionName, question, index, answers[sectionName][index])); /* Use global answers */
+            });
+
+            return sectionDiv;
+        }
+
+        // Function to draw the assessment wheel (SVG)
+        function drawAssessmentWheel() {
+            const container = document.getElementById('assessment-wheel-container');
+            container.innerHTML = ''; // Clear previous SVG
+
+            // Increased size for a more pronounced wheel
+            const size = 400; // Increased SVG viewBox size
+            const radius = size / 2 - 50; // Adjusted radius for the larger size
+            const center = size / 2;
+            const numSections = Object.keys(sectionsData).length;
+            const angleIncrement = (2 * Math.PI) / numSections;
+
+            const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            svg.setAttribute("viewBox", `0 0 ${size} ${size}`);
+            // Adjusted max-width for the container to better reflect the new size on smaller screens
+            svg.classList.add("w-full", "max-w-sm", "sm:max-w-md", "md:max-w-lg", "h-auto");
+
+            // Generate concentric circles for the scale
+            for (let i = 0; i < 5; i++) {
+                const r = (i + 1) * radius / 5;
+                const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                circle.setAttribute("cx", center);
+                circle.setAttribute("cy", center);
+                circle.setAttribute("r", r);
+                circle.setAttribute("fill", "none");
+                circle.setAttribute("stroke", "#E2E8F0");
+                circle.setAttribute("stroke-width", "1");
+                svg.appendChild(circle);
+            }
+
+            // Function to get coordinates for a point on the wheel
+            const getCoordinates = (value, index) => {
+                const angle = index * angleIncrement - Math.PI / 2;
+                const x = center + value * radius * Math.cos(angle) / 5;
+                const y = center + value * radius * Math.sin(angle) / 5;
+                return { x, y };
+            };
+
+            // Generate spoke lines and labels
+            Object.keys(sectionsData).forEach((section, index) => {
+                const angle = index * angleIncrement - Math.PI / 2;
+                const x2 = center + radius * Math.cos(angle);
+                const y2 = center + radius * Math.sin(angle);
+
+                const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                line.setAttribute("x1", center);
+                line.setAttribute("y1", center);
+                line.setAttribute("x2", x2);
+                line.setAttribute("y2", y2);
+                line.setAttribute("stroke", "#CBD5E0");
+                line.setAttribute("stroke-width", "1");
+                svg.appendChild(line);
+
+                // Label positioning
+                const labelOffset = 25;
+                const labelX = center + (radius + labelOffset) * Math.cos(angle);
+                const labelY = center + (radius + labelOffset) * Math.sin(angle);
+
+                let textAnchor = 'middle';
+                if (Math.abs(Math.cos(angle)) > 0.9) {
+                    textAnchor = Math.cos(angle) > 0 ? 'start' : 'end';
+                } else if (Math.abs(Math.sin(angle)) > 0.9) {
+                    textAnchor = 'middle';
+                } else {
+                    textAnchor = Math.cos(angle) > 0 ? 'start' : 'end';
+                }
+
+                const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                text.setAttribute("x", labelX);
+                text.setAttribute("y", labelY);
+                text.setAttribute("text-anchor", textAnchor);
+                text.setAttribute("alignment-baseline", "middle");
+                text.classList.add("text-sm", "font-semibold", "fill-gray-700"); /* Slightly larger font for labels */
+                // Rotate text to align with the spoke
+                text.setAttribute("transform", `rotate(${angle * 180 / Math.PI + 90}, ${labelX}, ${labelY})`);
+                text.textContent = section;
+                svg.appendChild(text);
+            });
+
+            // Generate scale labels (1-5) along one spoke (e.g., the top one)
+            for (let i = 0; i < 5; i++) {
+                const value = i + 1;
+                const { x, y } = getCoordinates(value, 0); // Use the first spoke (Spiritual)
+                const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                text.setAttribute("x", x + 5);
+                text.setAttribute("y", y);
+                text.setAttribute("text-anchor", "start");
+                text.setAttribute("alignment-baseline", "middle");
+                text.classList.add("text-sm", "fill-gray-500"); /* Slightly larger font for scale labels */
+                text.textContent = value;
+                svg.appendChild(text);
+            }
+
+            // Generate points for the polygon based on scores
+            const polygonPoints = Object.keys(sectionsData).map((section, index) => {
+                const score = averageScores[section] || 0;
+                const { x, y } = getCoordinates(score, index);
+                return `${x},${y}`;
+            }).join(' ');
+
+            const polygon = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+            polygon.setAttribute("points", polygonPoints);
+            polygon.setAttribute("fill", "rgba(59, 130, 246, 0.6)");
+            polygon.setAttribute("stroke", "#3B82F6");
+            polygon.setAttribute("stroke-width", "2");
+            polygon.classList.add("transition-all", "duration-500", "ease-in-out");
+            svg.appendChild(polygon);
+
+            // Center point
+            const centerCircle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+            centerCircle.setAttribute("cx", center);
+            centerCircle.setAttribute("cy", center);
+            centerCircle.setAttribute("r", "3");
+            centerCircle.setAttribute("fill", "#3B82F6");
+            svg.appendChild(centerCircle);
+
+            container.appendChild(svg);
+        }
+
+        // Function to display average scores numerically
+        function displayAverageScores() {
+            const displayContainer = document.getElementById('average-scores-display');
+            displayContainer.innerHTML = ''; // Clear previous display
+
+            Object.keys(averageScores).forEach(section => {
+                const div = document.createElement('div');
+                div.className = 'p-3 bg-blue-50 rounded-lg shadow-inner';
+                div.innerHTML = `<p class="font-semibold text-blue-800 text-sm sm:text-base">${section}: <span class="text-lg font-bold">${averageScores[section].toFixed(1)}</span></p>`; /* Responsive text size */
+                displayContainer.appendChild(div);
+            });
+        }
+
+        // Initialize and render the app when the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeAppData();
+            const surveyContainer = document.getElementById('survey-questions-container');
+            Object.keys(sectionsData).forEach(section => {
+                surveyContainer.appendChild(renderSurveySection(section, sectionsData[section], answers[section]));
+            });
+            drawAssessmentWheel(); // Initial draw of the wheel
+            displayAverageScores(); // Initial display of scores
+        });
+    </script>
+</body>
+</html>
